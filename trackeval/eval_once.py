@@ -301,6 +301,7 @@ def _compute(Dataset : _BaseDataset, metric_list : List[str]) -> dict:
     dict : trackeval result dictionnary from Evaluator. Returns {} if there is
     a computation probleme in the inputs - dataset or metric_list.
     """
+    print("path os.getcwd(): {}".format(os.getcwd()))
     # Init score dict
     score_dict : dict = {}
 
