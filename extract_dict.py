@@ -5,7 +5,7 @@ def extract_dict(trackeval_dict : dict) -> List[dict]:
     # Initialize hota/count score list
     hota_score_list : List[dict] = []
     # Extract informations of interest
-    hota_score : dict = trackeval_dict['MotChallenge2DBox']['tracker']
+    hota_score : dict = trackeval_dict['MotChallenge2DBox']['dataset_train']
     del hota_score['COMBINED_SEQ']
     
     # Browse for every sequence 
