@@ -1,1 +1,0 @@
-from trackeval.compute.compute_hota_from_mot_challenge_2d import compute_hota_from_mot_challenge_2d

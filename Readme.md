@@ -26,11 +26,11 @@ All credits go to the [original repo](https://github.com/JonathonLuiten/TrackEva
 
 ***
 
-# Additionnal script ``extract_dict`` and ``print_hota``
+# Additionnal script `extract_dict` and `print_hota`
 
 Previous package could be considered as standalone. Although, two scripts are included to have a better experience: 
-- **``extract_dict``**: Return a list of dictionnaries containing a dictionnary for each (gt,tracker_result) pair. This function has been made because default TrackEval dictionnary is over exhaustive compared to our use of case. So we filtered out to have a light dictionnary with core metrics inside
-- **``print_hota``**: Conveniant way to print a HOTA dictionnary which should be from the dictionnary list of ``extract_dict``
+- **`extract_dict`**: Return a list of dictionnaries containing a dictionnary for each (gt,tracker_result) pair. This function has been made because default TrackEval dictionnary is over exhaustive compared to our use of case. So we filtered out to have a light dictionnary with core metrics inside
+- **`print_hota`**: Conveniant way to print a HOTA dictionnary which should be from the dictionnary list of `extract_dict`
 
 So to show up how it would be if both functions are defined in previous python interpreter:
 

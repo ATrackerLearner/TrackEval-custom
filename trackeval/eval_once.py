@@ -131,6 +131,7 @@ def _get_custom_dataset_config(Dataset : _BaseDataset) -> dict:
     dataset_config : dict = Dataset.get_default_dataset_config()
 
     # Remove printing partially  
+<<<<<<< HEAD
     dataset_config.update({
         'SKIP_SPLIT_FOL': True,
         "PRINT_CONFIG": False,
@@ -146,6 +147,10 @@ def _get_custom_dataset_config(Dataset : _BaseDataset) -> dict:
         dataset_config["GT_FOLDER"] = "./data/gt/"
     if Dataset.get_name() in ["MotChallenge2DBox", "MOTSChallenge"]:
         dataset_config["GT_FOLDER"] = "./data/gt/"
+=======
+    dataset_config["PRINT_CONFIG"] = False
+
+>>>>>>> f801a460e9660ec5a632950d8ea548f165036b0f
     # Return custom dict
     return dataset_config
 
@@ -159,6 +164,7 @@ def _make_data_folder(Dataset : _BaseDataset, pair_path_list : List[List[str]]) 
     Returns:
         int: 0 OK, 1 NOT OK
     """
+<<<<<<< HEAD
     data_gt_dir_path = Path("./data/gt/dataset_train")
     data_tracker_dir_path = Path("./data/trackers/dataset_train/data")
 
@@ -178,6 +184,54 @@ def _make_data_folder(Dataset : _BaseDataset, pair_path_list : List[List[str]]) 
         data_gt_dir_path = Path("./data/gt/youtube_vis_train/")
         data_tracker_dir_path = Path("./data/trackers/youtube_vis_train/youtube_vis_train/data/")
 
+=======
+    data_gt_dir_path = None
+    data_tracker_dir_path = None
+
+    if Dataset.get_name() == "BDD100K":
+       # Creation of folder
+        data_gt_dir_path = Path("./data/gt/bdd100k/bdd100k_val/") 
+        data_tracker_dir_path = Path("./data/trackers/bdd100k/bdd100k_val/tracker/data/") 
+
+    elif Dataset.get_name() == "DAVIS":
+        # Creation of folder
+        data_gt_dir_path = Path('data/gt/davis/davis_unsupervised_val/class/')
+        data_tracker_dir_path = Path('data/trackers/davis/davis_unsupervised_val/tracker/data/class/')
+        
+    elif Dataset.get_name() == "Kitti2DBox":
+        # Creation of folder
+        data_gt_dir_path = Path('data/gt/kitti/kitti_2d_box_train/label_02/')
+        data_tracker_dir_path = Path('data/trackers/kitti/kitti_2d_box_train/tracker/data/')
+    
+    elif Dataset.get_name() == "KittiMOTS":
+        # Creation of folder
+        data_gt_dir_path = Path('data/gt/kitti/kitti_mots_val/label_02/')
+        data_tracker_dir_path = Path('data/trackers/kitti/kitti_mots_val/tracker/data/')
+    
+    elif Dataset.get_name() == "MOTSChallenge":    
+        data_gt_dir_path : Path = Path("data/gt/mot_challenge/MOTS-train/")
+        data_tracker_dir_path : Path = Path("./data/trackers/mot_challenge/MOTS-train/tracker/data")
+        seqmap_dir_path = data_gt_dir_path.parent.joinpath("seqmaps")
+    
+    elif Dataset.get_name() =="MotChallenge2DBox":    
+        data_gt_dir_path : Path = Path("data/gt/mot_challenge/MOT17-train/")
+        data_tracker_dir_path : Path = Path("./data/trackers/mot_challenge/MOT17-train/tracker/data")
+        seqmap_dir_path = data_gt_dir_path.parent.joinpath("seqmaps")
+
+    elif Dataset.get_name() == "TAO":
+        data_gt_dir_path = Path("data/gt/tao/tao_training")
+        data_tracker_dir_path = Path("data/trackers/tao/tao_training/tracker/data/")
+
+    elif Dataset.get_name() == "YouTubeVIS":
+        data_gt_dir_path = Path("data/gt/youtube_vis/youtube_vis_train_sub_split")
+        data_tracker_dir_path = Path("data/trackers/youtube_vis/youtube_vis_train_sub_split/tracker/data") 
+    # Check if dataset are ok 
+    if data_gt_dir_path == None or data_tracker_dir_path == None:
+        print("CLASS DATASET IS NOT SUPPORTED")
+        print("Dataset class name: {}".format(Dataset.get_name()))
+        return 1
+    
+>>>>>>> f801a460e9660ec5a632950d8ea548f165036b0f
     # Directories for any dataset
     makedirs(data_gt_dir_path)   
     makedirs(data_tracker_dir_path)
@@ -186,7 +240,11 @@ def _make_data_folder(Dataset : _BaseDataset, pair_path_list : List[List[str]]) 
     if Dataset.get_name() in ["MotChallenge2DBox", "MOTSChallenge"]:
         makedirs(seqmap_dir_path)
         if Dataset.get_name() == "MotChallenge2DBox":
+<<<<<<< HEAD
             seqmap_full_path = seqmap_dir_path.joinpath("dataset-train.txt")
+=======
+            seqmap_full_path = seqmap_dir_path.joinpath("MOT17-train.txt")
+>>>>>>> f801a460e9660ec5a632950d8ea548f165036b0f
         else: # MOTS
             seqmap_full_path = seqmap_dir_path.joinpath("MOTS-train.txt")
         with open(seqmap_full_path, "a+") as file:
@@ -216,11 +274,19 @@ def _make_data_folder(Dataset : _BaseDataset, pair_path_list : List[List[str]]) 
                 # Last frame number must be incremented
                 last_frame_number = str(int(line.split(" ")[0]) + 1)
             # Set kitti seqmap
+<<<<<<< HEAD
             kitti_dir_path = data_gt_dir_path.parent
             if Dataset.get_name() == "Kitti2DBox":
                 seqmap_file_name = "evaluate_tracking.seqmap.train"
             else: # Kitti MOTS
                 seqmap_file_name = "evaluate_mots.seqmap.train" 
+=======
+            kitti_dir_path = data_gt_dir_path.parents[0]
+            if Dataset.get_name() == "Kitti2DBox":
+                seqmap_file_name = "evaluate_tracking.seqmap.training"
+            else: # Kitti MOTS
+                seqmap_file_name = "evaluate_mots.seqmap.val" 
+>>>>>>> f801a460e9660ec5a632950d8ea548f165036b0f
             # Write in file
             with open(kitti_dir_path.joinpath(seqmap_file_name), 'a+') as file:
                 file.write(gt_full_path.stem + " empty " + first_frame_number +
@@ -287,6 +353,10 @@ def _compute(Dataset : _BaseDataset, metric_list : List[str]) -> dict:
     dict : trackeval result dictionnary from Evaluator. Returns {} if there is
     a computation probleme in the inputs - dataset or metric_list.
     """
+<<<<<<< HEAD
+=======
+    print("path os.getcwd(): {}".format(os.getcwd()))
+>>>>>>> f801a460e9660ec5a632950d8ea548f165036b0f
     # Init score dict
     score_dict : dict = {}
 
@@ -295,7 +365,11 @@ def _compute(Dataset : _BaseDataset, metric_list : List[str]) -> dict:
     
     # Dataset config
     dataset_config : dict = _get_custom_dataset_config(Dataset)
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> f801a460e9660ec5a632950d8ea548f165036b0f
     # Init core objects
     evaluator = Evaluator(eval_config)
     dataset_list : List[_BaseDataset] = [Dataset(dataset_config)]
@@ -357,5 +431,9 @@ def eval_once(
     if _make_data_folder(Dataset, pair_path_list):
         return score_dict
                 
+<<<<<<< HEAD
+=======
+    breakpoint()
+>>>>>>> f801a460e9660ec5a632950d8ea548f165036b0f
     # Run HOTA on MOT Challenge file, like run_mot_challenge_scripts
     return _compute(Dataset, metric_list)
