@@ -371,5 +371,6 @@ def eval_once(
     if _make_data_folder(Dataset, pair_path_list):
         return score_dict
                 
+    breakpoint()
     # Run HOTA on MOT Challenge file, like run_mot_challenge_scripts
     return _compute(Dataset, metric_list)
