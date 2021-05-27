@@ -1,8 +1,57 @@
-
 import os
 import csv
 from collections import OrderedDict
+from statistics import mean
+from typing import List
 
+def print_hota(d : dict):
+   """Print HOTA fancy way
+
+   Args:
+       d (dict): HOTA dictionnari in extract_dict list
+   """
+   upper_line : str = "||"
+   down_line : str = "||"
+   for i,key in enumerate(d.keys()):
+      upper_line += "{:^10}".format(key) + "||"
+      down_line += "{:^10.2f}".format(d[key]) + "||"
+      if (i+1) % 7 == 0:
+         print(upper_line + '\n' + down_line)
+         upper_line : str = "||"
+         down_line : str = "||"
+   if (i+1) % 7 != 0:
+      print(upper_line + '\n' + down_line)
+        
+def extract_dict(trackeval_dict : dict) -> List[dict]:
+    # Initialize hota/count score list
+    hota_score_list : List[dict] = []
+    # Extract informations of interest
+    hota_score : dict = trackeval_dict['MotChallenge2DBox']['dataset_train']
+    del hota_score['COMBINED_SEQ']
+    
+    # Browse for every sequence 
+    for i in range(len(hota_score)):
+        # Format score
+        hota_score_temp : dict= hota_score['seq_{!s}'.format(i+1)]['pedestrian']['HOTA']
+        # Remove unrelevent keys
+        del hota_score_temp['HOTA(0)']
+        del hota_score_temp['LocA(0)']
+        del hota_score_temp['HOTALocA(0)']
+        del hota_score_temp['RHOTA']
+        for key in hota_score_temp.keys():
+            hota_score_temp[key] = mean(hota_score_temp[key])
+        
+        # Add count keys to HOTA dict
+        count_score_temp : dict = hota_score['seq_{!s}'.format(i+1)]['pedestrian']['Count']
+        for key in count_score_temp.keys():
+            hota_score_temp[key] = count_score_temp[key]
+
+        # Append score hota
+        hota_score_list.append(hota_score_temp)
+    
+    return hota_score_list
+ 
+    
 
 def init_config(config, default_config, name=None):
     """Initialise non-given config values with defaults"""
